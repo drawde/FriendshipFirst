@@ -1,0 +1,178 @@
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/*body {
+  margin: 0;
+  color: #fff;
+  background-color: #444;
+  font: 0/1 'Oswald', sans-serif;
+  text-align: center;
+}*/
+
+.container {
+  margin: 0px auto;
+  padding: 20px 5px;
+  font: 0/1 'Oswald', sans-serif;
+}
+
+/*h1 {
+  margin: 0 5px 15px;
+  font-size: 45px;
+  line-height: 1.2;
+  text-transform: uppercase;
+  text-shadow: 0 0 20px #000;
+}*/
+
+.marvel {
+  color: #c00;
+}
+
+.ipt {
+  position: absolute;
+  left: -9999px;
+}
+
+label {
+	color: #fff;
+  display: inline-block;
+  position: relative;
+  width: 150px;
+  margin: 5px;
+  padding: 10px 10px 10px 38px;
+  background-color: #000;
+  font-size: 18px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+label::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #fff;
+  background-color: #444;
+}
+
+input:focus + label {
+  outline: 1px solid #fff;
+}
+
+input:checked + label::before {
+  background-color: #c00;
+}
+
+/* width is controlled here and in media queries to ensure that there's always an even number of columns (prevents orphans) */
+.characters {
+  display: inline-block;
+  width: 240px;
+  list-style-type: none;
+  /*margin: 15px -5px 0;*/
+  padding: 0;
+}
+
+.characters li {
+  display: inline-block;
+  position: relative;
+  margin: 10px;
+  padding: 0;
+  width: 100px;
+  height: 100px;
+}
+
+.characters h2 {
+  display: none;
+  position: absolute;
+  z-index: 2;
+  top: 70px;
+  left: 0px;
+  right: 0px;
+  margin: 0;
+  padding: 4px;
+  border: 1px solid #fff;
+  color: #fff;
+  background-color: #000;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.characters img {
+  width: 100px;
+  height: 100px;
+  border: 4px solid #fff;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0 0 20px #000;
+  opacity: .25;
+  -webkit-transform: scale(.5);
+      -ms-transform: scale(.5);
+          transform: scale(.5);
+}
+
+#original:checked ~ .characters [data-teams~="original"] h2,
+#force:checked ~ .characters [data-teams~="force"] h2,
+#factor:checked ~ .characters [data-teams~="factor"] h2,
+#hellfire:checked ~ .characters [data-teams~="hellfire"] h2 {
+  display: block;
+}
+
+#original:checked ~ .characters [data-teams~="original"] img,
+#force:checked ~ .characters [data-teams~="force"] img,
+#factor:checked ~ .characters [data-teams~="factor"] img,
+#hellfire:checked ~ .characters [data-teams~="hellfire"] img {
+  -webkit-animation: avatar .3s forwards;
+          animation: avatar .3s forwards;
+}
+
+/* fade in and expand image to full size, with a slight bounce */
+@-webkit-keyframes avatar {
+  70% {
+    opacity: 1;
+    -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
+@keyframes avatar {
+  70% {
+    opacity: 1;
+    -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
+
+@media only screen and (min-width: 500px) {
+  .characters {
+    width: 100%;
+  }
+}
+
+@media only screen and (min-width: 740px) {
+  .characters {
+    width: 720px;
+  }
+
+  h1 {
+    font-size: 60px;
+  }
+}
+
+@media only screen and (min-width: 980px) {
+  .characters {
+    width: 960px;
+  }
+}

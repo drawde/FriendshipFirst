@@ -1,0 +1,149 @@
+﻿@using System.Configuration
+@using FriendshipFirst.Common.Util
+@using FriendshipFirst.Common.Enum
+@using FriendshipFirst.Model
+@{
+    Layout = null;
+}
+
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <title>友谊第一</title>
+    <link href="/css/Marvel/styles.css" rel="stylesheet" />
+    <link href="/css/jquery-ui.css" rel="stylesheet" />
+    <link href="/css/jquery-confirm/css/jquery-confirm.css" rel="stylesheet" />
+    <link href="/css/loader/loader.css" rel="stylesheet" />
+    <link href="/css/build.min.css" rel="stylesheet" />
+
+    <script src="/Scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+        var APIURL = "@(System.Configuration.ConfigurationManager.AppSettings["APIURL"])";
+    </script>
+    <script src="/Scripts/fetch.min.js@(ViewBag.cssAndJSVersion)"></script>
+    <script src="/Scripts/figlet.js@(ViewBag.cssAndJSVersion)"></script>
+    <script src="/Scripts/jquery.cookies.js"></script>
+    <script src="/js/basic.js"></script>
+    <script src="/Scripts/jquery-ui.min.js"></script>
+    <script src="/js/md5-min.js"></script>
+    <style>
+        .container input,label{
+            display:none
+        }
+        .characters h2 {
+            line-height:20px;
+        }
+    </style>
+    <script type="text/javascript">
+        @(EnumUtil.GetJsonEnum(typeof(GameStatusEnum)));
+        @(EnumUtil.GetJsonEnum(typeof(PlayerStatusEnum)));
+    </script>
+</head>
+<body style="background-color:#0b86a2">
+    <script type="text/javascript">
+    var ISDEBUG = @(ConfigurationManager.AppSettings["IsDebug"].TryParseBool() ? "true" : "false");
+
+    </script>
+    @(Html.Raw(SignUtil.ImportSignJsFile("/js/chosencardgroup.source.js")))
+
+    @(Html.Raw(ViewBag.ConfusionStringToHTML))
+    <div class="jq22-container content-wrap">
+
+        <div class="container">
+            <input id="original" type="radio" name="team" class="ipt" checked />
+            <label for="original">Original X-Men</label>
+
+            <input id="force" type="radio" class="ipt" name="team">
+            <label for="force">X-Force</label>
+
+            <input id="factor" type="radio" class="ipt" name="team">
+            <label for="factor">X-Factor</label>
+            
+            <input id="hellfire" type="radio" class="ipt" name="team">
+            <label for="hellfire">Hellfire Club</label>
+            <ul class="characters">
+                <li id="angel" data-teams="">
+                    <h2>Angel</h2>
+                    <img src="/images/defaulthead.png" alt="">
+                </li>
+                <li id="beast" data-teams="">
+                    <h2>Beast</h2>
+                    <img src="/images/defaulthead.png" alt="">
+                </li>
+                <li id="cyclops" data-teams="">
+                    <h2>Cyclops</h2>
+                    <img src="/images/defaulthead.png" alt="">
+                </li>
+                <li id="emma-frost" data-teams="">
+                    <h2>Emma Frost</h2>
+                    <img src="/images/defaulthead.png" alt="">
+                </li>
+                <li id="iceman" data-teams="">
+                    <h2>Iceman</h2>
+                    <img src="/images/defaulthead.png" alt="">
+                </li>
+                <li id="jean-grey" data-teams="">
+                    <h2>Jean Grey</h2>
+                    <img src="/images/defaulthead.png" alt="">
+                </li>
+                <li id="magneto" data-teams="">
+                    <h2>Magneto</h2>
+                    <img src="/images/defaulthead.png" alt="">
+                </li>
+                <li id="nightcrawler" data-teams="original">
+                    <a href="javascript:;"><img src="/images/baoxiang.png" alt=""></a>
+                </li>
+                <li id="professor-x" data-teams="">
+                    <h2>Professor X</h2>
+                    <img src="/images/defaulthead.png" alt="">
+                </li>
+                <li id="psylocke" data-teams="">
+                    <h2>Psylocke</h2>
+                    <img src="/images/defaulthead.png" alt="">
+                </li>
+                <li id="quicksilver" data-teams="">
+                    <h2>Quicksilver</h2>
+                    <img src="/images/defaulthead.png" alt="">
+                </li>
+                <li id="rictor" data-teams="">
+                    <h2>Rictor</h2>
+                    <img src="/images/defaulthead.png" alt="">
+                </li>
+                <li id="storm" data-teams="original">
+                    <h2></h2>
+                    <img src="/images/defaulthead.png" alt="">
+                </li>
+                <li id="sunspot" data-teams="">
+                    <h2>Sunspot</h2>
+                    <img src="/images/defaulthead.png" alt="">
+                </li>
+                <li id="tithe" data-teams="">
+                    <h2>Tithe</h2>
+                    <img src="/images/defaulthead.png" alt="">
+                </li>
+                <li id="wolverine" data-teams="">
+                    <h2>Wolverine</h2>
+                    <img src="/images/defaulthead.png" alt="">
+                </li>
+            </ul>
+        </div>
+
+    </div>
+    @Html.Partial("/Views/Addons/SignalRChatFrame.cshtml", null)
+    <input type="hidden" id="dst" value="@(FriendshipFirst.BLL.SignJSTextBll.SINGJSTEXT)" />
+    <script src="/js/notie/notie.js"></script>
+    <div class="progress-indicator" style="display: none;">
+        <div class="load-content align-center">
+            <div class="load-container load8">
+                <div class="loader"></div>
+                Proccessing
+            </div>
+        </div>
+    </div>
+</body>
+</html>
