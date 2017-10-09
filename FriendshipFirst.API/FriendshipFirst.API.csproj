@@ -26,6 +26,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <DontImportPostSharp>True</DontImportPostSharp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -239,11 +240,7 @@
     <Compile Include="Hubs\ChosenCardGroup\ChosenCardGroupHub.cs" />
     <Compile Include="Hubs\ChosenCardGroup\ChosenCardGroupUserCache.cs" />
     <Compile Include="Hubs\ChosenCardGroup\IChosenCardGroupHub.cs" />
-    <Compile Include="Hubs\Connection.cs" />
-    <Compile Include="Hubs\ConversationRoom.cs" />
     <Compile Include="Hubs\IHub.cs" />
-    <Compile Include="Hubs\SignalRUser.cs" />
-    <Compile Include="Hubs\UserContextProxy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -310,6 +307,10 @@
     <ProjectReference Include="..\FriendshipFirst.Common\FriendshipFirst.Common.csproj">
       <Project>{389ffaf0-b84d-483d-8826-eea896529cca}</Project>
       <Name>FriendshipFirst.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FriendshipFirst.DAL\FriendshipFirst.DAL.csproj">
+      <Project>{34e041be-3dd0-4ca1-8999-bb669ce7e9f4}</Project>
+      <Name>FriendshipFirst.DAL</Name>
     </ProjectReference>
     <ProjectReference Include="..\FriendshipFirst.Model\FriendshipFirst.Model.csproj">
       <Project>{5ef3479a-b2bd-4109-baaa-7b68d23abce2}</Project>

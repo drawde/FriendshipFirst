@@ -1,4 +1,5 @@
-﻿using FriendshipFirst.DAL;
+﻿using FriendshipFirst.Common;
+using FriendshipFirst.DAL;
 using FriendshipFirst.Model;
 using System;
 using System.Collections.Generic;

@@ -7,6 +7,6 @@ namespace FriendshipFirst.API.Hubs.ChosenCardGroup
 {
     public class ChosenCardGroupUserCache
     {
-        public static IList<SignalRUser> userList = new List<SignalRUser>();
+        //public static IList<SignalRUser> userList = new List<SignalRUser>();
     }
 }

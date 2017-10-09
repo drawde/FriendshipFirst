@@ -23,5 +23,6 @@ namespace FriendshipFirst.Model
         public string Action { get; set; }
         public System.DateTime AddTime { get; set; }
         public int DataSource { get; set; }
+        public byte[] TimeStamp { get; set; }
     }
 }

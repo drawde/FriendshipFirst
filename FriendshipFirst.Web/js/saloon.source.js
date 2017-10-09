@@ -19,7 +19,7 @@
             showMessage(data.msg, function () {
                 hideLoader();
                 if (data.code == 100) {
-                    window.location = "/Game/ChosenCardGroup?saloonid=" + data.data + "&password=" + $("input[name='password']").val();
+                    window.location = "/Game/ChosenCardGroup?tableCode=" + data.data.TableCode + "&password=" + $("input[name='password']").val();
                 }
             });
         });
@@ -42,7 +42,7 @@ function getSaloons() {
                 }
                 $(".text-list").append("<div class=\"item\">" +
                     "<div class=\"description\">" +
-                    "<h2><a href=\"javascript:zhanZuoEr(" + data.data.Items[i].ID + "," + needPassword + ");\">" + data.data.Items[i].TableName + "</a></h2>" +
+                    "<h2><a href=\"javascript:zhanZuoEr(" + needPassword + ",'" + data.data.Items[i].TableCode + "');\">" + data.data.Items[i].TableName + "</a></h2>" +
                     "<p></p>" +
                     "<div class=\"meta\">" +
                     "<ul class=\"tag-list\">" +
@@ -51,7 +51,7 @@ function getSaloons() {
                     "</div>" +
                     "</div>" +
                     "<div class=\"action\">" +
-                    "<a href=\"javascript:zhanZuoEr(" + data.data.Items[i].ID + "," + needPassword + ");\" class=\"btn\">进入房间</a>" +
+                    "<a href=\"javascript:zhanZuoEr(" + needPassword + ",'" + data.data.Items[i].TableCode + "');\" class=\"btn\">进入房间</a>" +
                     "</div>" +
                     "</div>");
             }
@@ -59,24 +59,24 @@ function getSaloons() {
     });
 }
 
-function zhanZuoEr(id, needPassword) {    
+function zhanZuoEr(needPassword,tableCode) {    
     if (needPassword) {
         showInput("请输入你的密码","text", function (ipt) {
-            goRoom(id, ipt);
+            goRoom(ipt, tableCode);
         });
     }
     else {
         goRoom(id, '');
     }
 }
-function goRoom(id, ipt) {
+function goRoom(ipt, tableCode) {
     showLoader();
     var sign = getSign();
-    var param = "{\"TableID\":\"" + id + "\",\"UserCode\":\"" + getUserCode() + "\",\"Password\":\"" + ipt + "\"}";
+    var param = "{\"TableCode\":\"" + tableCode + "\",\"UserCode\":\"" + getUserCode() + "\",\"Password\":\"" + ipt + "\"}";
     ajaxGetData("/Saloon/ZhanZuoEr", param, sign.rndStr, sign.sign, sign.sendTime, function (data) {
         hideLoader();
         if (data.code == 100) {
-            window.location = "/Game/ChosenCardGroup?saloonid=" + id + "&password=" + ipt;
+            window.location = "/Game/ChosenCardGroup?tableCode=" + tableCode + "&password=" + ipt;
         }
         else {
             showErrorMessage(data.msg);

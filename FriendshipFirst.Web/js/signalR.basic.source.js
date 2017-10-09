@@ -28,15 +28,15 @@
         var interval = setInterval(function () {
             if (!!apiTime) {
                 clearInterval(interval);                
-                var param = "{\"NickName\":\"" + getNickName() + "\",\"TableID\":\"" + getUrlParam("saloonid") + "\",\"UserCode\":\"" + getUserCode() + "\",\"Password\":\"" + getUrlParam("password") + "\"}";
-                roomHub.server.online(appendParam(param, getSign())).done(function (res) {
-                    res = JSON.parse(res);
+                var param = "{\"NickName\":\"" + getNickName() + "\",\"TableCode\":\"" + getUrlParam("TableCode") + "\",\"UserCode\":\"" + getUserCode() + "\",\"Password\":\"" + getUrlParam("password") + "\"}";
+                roomHub.server.online(appendParam(param, getSign())).done(function (res) {                    
+                    res = JSON.parse(res);                    
                     hideLoader();
                     if (res.code == 100) {
                         showSuccessMessage("连接房间成功");                        
                         ClientConnected(res);
                         $('#send').click(function () {
-                            var chatContent = $('#message').val();
+                            var chatContent = $('#message').val();                            
                             roomHub.server.sendChat(getUserCode(), chatContent).done(function () {
                                 $('#message').val("");
                             });
@@ -70,6 +70,6 @@ function clearUnReadMessage() {
 }
 
 window.onbeforeunload = function () {
-    var param = "{\"TableID\":\"" + getUrlParam("saloonid") + "\",\"UserCode\":\"" + getUserCode() + "\"}";
+    var param = "{\"TableCode\":\"" + getUrlParam("tableCode") + "\",\"UserCode\":\"" + getUserCode() + "\"}";
     roomHub.server.leaveRoom(appendParam(param, getSign()));
 }

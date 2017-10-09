@@ -7,6 +7,7 @@ namespace FriendshipFirst.API.Hubs.ChosenCardGroup
 {
     interface IChosenCardGroupHub: IHub
     {        
-        void IAmReady(string param);
+        string IAmReady(string param);
+        string IAmCancelReady(string param);
     }
 }

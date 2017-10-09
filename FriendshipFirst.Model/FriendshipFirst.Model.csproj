@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseEntity.cs" />
+    <Compile Include="CustomModels\CGameUser.cs" />
     <Compile Include="CustomModels\CUsers.cs" />
     <Compile Include="FF.cs">
       <AutoGen>True</AutoGen>

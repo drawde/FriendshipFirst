@@ -10,11 +10,12 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="TableCode" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="GameCode" Type="varchar" MaxLength="32" Nullable="false" />
           <Property Name="BankerCode" Type="varchar" MaxLength="32" Nullable="false" />
-          <Property Name="RoundCode" Type="varchar" MaxLength="32" Nullable="false" />
           <Property Name="AddTime" Type="datetime" Nullable="false" />
           <Property Name="GameStatus" Type="int" Nullable="false" />
+          <Property Name="CurrentRoundCode" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="NextRoundCode" Type="varchar" MaxLength="32" Nullable="false" />
         </EntityType>
         <EntityType Name="FF_GameRecord">
           <Key>
@@ -29,6 +30,9 @@
           <Property Name="AddTime" Type="datetime" Nullable="false" />
           <Property Name="WinMoney" Type="decimal" Precision="8" Scale="2" Nullable="false" />
           <Property Name="Balance" Type="decimal" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="GameCode" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="IsActivity" Type="bit" Nullable="false" />
+          <Property Name="RoomIndex" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="FF_User">
           <Key>
@@ -53,12 +57,13 @@
           <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="URL" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="QueryData" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="ResultData" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="ResultData" Type="nvarchar(max)" Nullable="false" />
           <Property Name="IP" Type="varchar" MaxLength="15" Nullable="false" />
           <Property Name="Controller" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Action" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="AddTime" Type="datetime" Nullable="false" />
           <Property Name="DataSource" Type="int" Nullable="false" />
+          <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
         <EntityType Name="HS_ErrRec">
           <Key>
@@ -110,28 +115,14 @@
     <edmx:ConceptualModels>
       <Schema Namespace="FriendshipFirst.Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="FriendshipFirstEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="HS_DataExchange" EntityType="FriendshipFirst.Model.HS_DataExchange" />
           <EntitySet Name="HS_ErrRec" EntityType="FriendshipFirst.Model.HS_ErrRec" />
           <EntitySet Name="HS_SystemConfig" EntityType="FriendshipFirst.Model.HS_SystemConfig" />
           <EntitySet Name="FF_User" EntityType="FriendshipFirst.Model.FF_User" />
           <EntitySet Name="HS_GameTable" EntityType="FriendshipFirst.Model.HS_GameTable" />
           <EntitySet Name="FF_Game" EntityType="FriendshipFirst.Model.FF_Game" />
+          <EntitySet Name="HS_DataExchange" EntityType="FriendshipFirst.Model.HS_DataExchange" />
           <EntitySet Name="FF_GameRecord" EntityType="FriendshipFirst.Model.FF_GameRecord" />
         </EntityContainer>
-        <EntityType Name="HS_DataExchange">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="URL" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="QueryData" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ResultData" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="IP" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="Controller" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Action" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="AddTime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="DataSource" Type="Int32" Nullable="false" />
-        </EntityType>
         <EntityType Name="HS_ErrRec">
           <Key>
             <PropertyRef Name="ID" />
@@ -189,11 +180,27 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TableCode" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="GameCode" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
           <Property Name="BankerCode" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
-          <Property Name="RoundCode" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
           <Property Name="AddTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="GameStatus" Type="Int32" Nullable="false" />
+          <Property Name="CurrentRoundCode" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="NextRoundCode" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="HS_DataExchange">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="URL" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="QueryData" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ResultData" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IP" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Controller" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Action" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AddTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DataSource" Type="Int32" Nullable="false" />
+          <Property Name="TimeStamp" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="FF_GameRecord">
           <Key>
@@ -208,6 +215,9 @@
           <Property Name="AddTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="WinMoney" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
           <Property Name="Balance" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="GameCode" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="IsActivity" Type="Boolean" Nullable="false" />
+          <Property Name="RoomIndex" Type="Int32" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -215,21 +225,6 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="FriendshipFirstModelStoreContainer" CdmEntityContainer="FriendshipFirstEntities">
-          <EntitySetMapping Name="HS_DataExchange">
-            <EntityTypeMapping TypeName="FriendshipFirst.Model.HS_DataExchange">
-              <MappingFragment StoreEntitySet="HS_DataExchange">
-                <ScalarProperty Name="DataSource" ColumnName="DataSource" />
-                <ScalarProperty Name="AddTime" ColumnName="AddTime" />
-                <ScalarProperty Name="Action" ColumnName="Action" />
-                <ScalarProperty Name="Controller" ColumnName="Controller" />
-                <ScalarProperty Name="IP" ColumnName="IP" />
-                <ScalarProperty Name="ResultData" ColumnName="ResultData" />
-                <ScalarProperty Name="QueryData" ColumnName="QueryData" />
-                <ScalarProperty Name="URL" ColumnName="URL" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="HS_ErrRec">
             <EntityTypeMapping TypeName="FriendshipFirst.Model.HS_ErrRec">
               <MappingFragment StoreEntitySet="HS_ErrRec">
@@ -289,11 +284,28 @@
           <EntitySetMapping Name="FF_Game">
             <EntityTypeMapping TypeName="FriendshipFirst.Model.FF_Game">
               <MappingFragment StoreEntitySet="FF_Game">
+                <ScalarProperty Name="NextRoundCode" ColumnName="NextRoundCode" />
+                <ScalarProperty Name="CurrentRoundCode" ColumnName="CurrentRoundCode" />
                 <ScalarProperty Name="GameStatus" ColumnName="GameStatus" />
                 <ScalarProperty Name="AddTime" ColumnName="AddTime" />
-                <ScalarProperty Name="RoundCode" ColumnName="RoundCode" />
                 <ScalarProperty Name="BankerCode" ColumnName="BankerCode" />
-                <ScalarProperty Name="TableCode" ColumnName="TableCode" />
+                <ScalarProperty Name="GameCode" ColumnName="GameCode" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HS_DataExchange">
+            <EntityTypeMapping TypeName="FriendshipFirst.Model.HS_DataExchange">
+              <MappingFragment StoreEntitySet="HS_DataExchange">
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="DataSource" ColumnName="DataSource" />
+                <ScalarProperty Name="AddTime" ColumnName="AddTime" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="Controller" ColumnName="Controller" />
+                <ScalarProperty Name="IP" ColumnName="IP" />
+                <ScalarProperty Name="ResultData" ColumnName="ResultData" />
+                <ScalarProperty Name="QueryData" ColumnName="QueryData" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -301,6 +313,9 @@
           <EntitySetMapping Name="FF_GameRecord">
             <EntityTypeMapping TypeName="FriendshipFirst.Model.FF_GameRecord">
               <MappingFragment StoreEntitySet="FF_GameRecord">
+                <ScalarProperty Name="RoomIndex" ColumnName="RoomIndex" />
+                <ScalarProperty Name="IsActivity" ColumnName="IsActivity" />
+                <ScalarProperty Name="GameCode" ColumnName="GameCode" />
                 <ScalarProperty Name="Balance" ColumnName="Balance" />
                 <ScalarProperty Name="WinMoney" ColumnName="WinMoney" />
                 <ScalarProperty Name="AddTime" ColumnName="AddTime" />

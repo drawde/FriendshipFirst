@@ -23,5 +23,8 @@ namespace FriendshipFirst.Model
         public System.DateTime AddTime { get; set; }
         public decimal WinMoney { get; set; }
         public decimal Balance { get; set; }
+        public string GameCode { get; set; }
+        public bool IsActivity { get; set; }
+        public int RoomIndex { get; set; }
     }
 }

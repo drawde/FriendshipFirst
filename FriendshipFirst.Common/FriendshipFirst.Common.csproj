@@ -63,6 +63,7 @@
     <Compile Include="Log.cs" />
     <Compile Include="PageResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReflectionDynamicObject.cs" />
     <Compile Include="Util\CookieHelper.cs" />
     <Compile Include="Util\ObjectExtension.cs" />
     <Compile Include="Util\RandomUtil.cs" />

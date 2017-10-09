@@ -38,6 +38,38 @@
         .characters h2 {
             line-height:20px;
         }
+        .money {
+            text-align: center;
+            color: #ffb613
+        }
+        .betMoney {
+            background: #e74c3c;
+            border-radius: 50%;
+            color: #fff;
+            width:40px;
+            height:40px;
+            display:block;
+        }
+        .circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            position: relative;
+            top: -90px;
+            left: 80px;
+            background: #f30808;
+            box-shadow: 0px 0px 5px #404040;
+            color: #fff;
+            margin:0;
+            display:none;
+        }
+        .circle p {
+            text-align: center;
+            padding-top:4px;
+        }
+        .switchBanker {
+            display:none;
+        }
     </style>
     <script type="text/javascript">
         @(EnumUtil.GetJsonEnum(typeof(GameStatusEnum)));
@@ -52,6 +84,12 @@
     @(Html.Raw(SignUtil.ImportSignJsFile("/js/chosencardgroup.source.js")))
 
     @(Html.Raw(ViewBag.ConfusionStringToHTML))
+    <div style="position:fixed;right:0px;top:0px;">
+        <img style="width:100px;height:100px" src="/img/mymoney.png" />
+        <h1 class="money">0</h1>
+
+        <a class="switchBanker"><img style="width:100px;height:100px" src="/img/switchBanker.png" /></a>
+    </div>
     <div class="jq22-container content-wrap">
 
         <div class="container">
@@ -66,69 +104,115 @@
             
             <input id="hellfire" type="radio" class="ipt" name="team">
             <label for="hellfire">Hellfire Club</label>
+            
             <ul class="characters">
                 <li id="angel" data-teams="">
                     <h2>Angel</h2>
-                    <img src="/images/defaulthead.png" alt="">
+                    <img src="/images/defaulthead.png" alt="">                    
+                    <div class="circle">
+                        <p></p>
+                    </div>
                 </li>
                 <li id="beast" data-teams="">
                     <h2>Beast</h2>
                     <img src="/images/defaulthead.png" alt="">
+                    <div class="circle">
+                        <p></p>
+                    </div>
                 </li>
                 <li id="cyclops" data-teams="">
                     <h2>Cyclops</h2>
                     <img src="/images/defaulthead.png" alt="">
+                    <div class="circle">
+                        <p></p>
+                    </div>
                 </li>
                 <li id="emma-frost" data-teams="">
                     <h2>Emma Frost</h2>
                     <img src="/images/defaulthead.png" alt="">
+                    <div class="circle">
+                        <p></p>
+                    </div>
                 </li>
                 <li id="iceman" data-teams="">
                     <h2>Iceman</h2>
                     <img src="/images/defaulthead.png" alt="">
+                    <div class="circle">
+                        <p></p>
+                    </div>
                 </li>
                 <li id="jean-grey" data-teams="">
                     <h2>Jean Grey</h2>
                     <img src="/images/defaulthead.png" alt="">
+                    <div class="circle">
+                        <p></p>
+                    </div>
                 </li>
                 <li id="magneto" data-teams="">
                     <h2>Magneto</h2>
                     <img src="/images/defaulthead.png" alt="">
+                    <div class="circle">
+                        <p></p>
+                    </div>
                 </li>
-                <li id="nightcrawler" data-teams="original">
+                <li id="nightcrawler" data-teams="original" class="shake shake-little">
                     <a href="javascript:;"><img src="/images/baoxiang.png" alt=""></a>
                 </li>
                 <li id="professor-x" data-teams="">
                     <h2>Professor X</h2>
                     <img src="/images/defaulthead.png" alt="">
+                    <div class="circle">
+                        <p></p>
+                    </div>
                 </li>
                 <li id="psylocke" data-teams="">
                     <h2>Psylocke</h2>
                     <img src="/images/defaulthead.png" alt="">
+                    <div class="circle">
+                        <p></p>
+                    </div>
                 </li>
                 <li id="quicksilver" data-teams="">
                     <h2>Quicksilver</h2>
                     <img src="/images/defaulthead.png" alt="">
+                    <div class="circle">
+                        <p></p>
+                    </div>
                 </li>
                 <li id="rictor" data-teams="">
                     <h2>Rictor</h2>
                     <img src="/images/defaulthead.png" alt="">
+                    <div class="circle">
+                        <p></p>
+                    </div>
                 </li>
                 <li id="storm" data-teams="original">
                     <h2></h2>
                     <img src="/images/defaulthead.png" alt="">
+                    <div class="circle">
+                        <p></p>
+                    </div>
                 </li>
                 <li id="sunspot" data-teams="">
                     <h2>Sunspot</h2>
                     <img src="/images/defaulthead.png" alt="">
+                    <div class="circle">
+                        <p></p>
+                    </div>
                 </li>
                 <li id="tithe" data-teams="">
                     <h2>Tithe</h2>
                     <img src="/images/defaulthead.png" alt="">
+                    <div class="circle">
+                        <p></p>
+                    </div>
                 </li>
                 <li id="wolverine" data-teams="">
                     <h2>Wolverine</h2>
                     <img src="/images/defaulthead.png" alt="">
+                    <div class="circle">
+                        <p></p>
+                    </div>
                 </li>
             </ul>
         </div>

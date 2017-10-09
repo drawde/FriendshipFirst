@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -46,7 +47,7 @@
   <ItemGroup>
     <Reference Include="GeetestSDK, Version=3.1.6430.27732, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\GeetestSDK.dll</HintPath>
+      <HintPath>..\..\MyHearthStoneV2\MyHearthStoneV2.VerificationCode\bin\Debug\GeetestSDK.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
@@ -181,7 +182,9 @@
     <Content Include="img\lightbox\loading.gif" />
     <Content Include="img\lightbox\next.png" />
     <Content Include="img\lightbox\prev.png" />
+    <Content Include="img\mymoney.png" />
     <Content Include="img\nodejs-logo.jpg" />
+    <Content Include="img\switchBanker.png" />
     <Content Include="js\apisign.release.js" />
     <Content Include="js\apisign.source.js" />
     <Content Include="js\basic.js" />

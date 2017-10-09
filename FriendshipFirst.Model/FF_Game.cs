@@ -15,10 +15,11 @@ namespace FriendshipFirst.Model
     public partial class FF_Game :BaseEntity
     {
         public long ID { get; set; }
-        public string TableCode { get; set; }
+        public string GameCode { get; set; }
         public string BankerCode { get; set; }
-        public string RoundCode { get; set; }
         public System.DateTime AddTime { get; set; }
         public int GameStatus { get; set; }
+        public string CurrentRoundCode { get; set; }
+        public string NextRoundCode { get; set; }
     }
 }
