@@ -3,6 +3,8 @@ var PageIndex = 1;
 var TotalCount = 0;
 var emailreg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
 var mobilereg = /^1(3|4|5|7|8)\d{9}$/;
+var signObj;
+var apiTime;
 //获取url中的参数
 function getUrlParam(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");

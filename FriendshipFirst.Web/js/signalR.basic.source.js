@@ -26,11 +26,11 @@
     registCustomRoomFunction();
     $.connection.hub.start().done(function () {        
         var interval = setInterval(function () {
-            if (!!apiTime) {
-                clearInterval(interval);                
+            if (!!apiTime && !!signObj) {
+                clearInterval(interval);
                 var param = "{\"NickName\":\"" + getNickName() + "\",\"TableCode\":\"" + getUrlParam("TableCode") + "\",\"UserCode\":\"" + getUserCode() + "\",\"Password\":\"" + getUrlParam("password") + "\"}";
-                roomHub.server.online(appendParam(param, getSign())).done(function (res) {                    
-                    res = JSON.parse(res);                    
+                roomHub.server.online(appendParam(param, signObj)).done(function (res) {
+                    res = JSON.parse(res);
                     hideLoader();
                     if (res.code == 100) {
                         showSuccessMessage("连接房间成功");                        
@@ -71,5 +71,5 @@ function clearUnReadMessage() {
 
 window.onbeforeunload = function () {
     var param = "{\"TableCode\":\"" + getUrlParam("tableCode") + "\",\"UserCode\":\"" + getUserCode() + "\"}";
-    roomHub.server.leaveRoom(appendParam(param, getSign()));
+    roomHub.server.leaveRoom(appendParam(param, signObj));
 }

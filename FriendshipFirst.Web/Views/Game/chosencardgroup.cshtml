@@ -77,13 +77,10 @@
     </script>
 </head>
 <body style="background-color:#0b86a2">
-    <script type="text/javascript">
-    var ISDEBUG = @(ConfigurationManager.AppSettings["IsDebug"].TryParseBool() ? "true" : "false");
-
-    </script>
+    @(Html.Raw(ViewBag.ConfusionStringToHTML))
     @(Html.Raw(SignUtil.ImportSignJsFile("/js/chosencardgroup.source.js")))
 
-    @(Html.Raw(ViewBag.ConfusionStringToHTML))
+    
     <div style="position:fixed;right:0px;top:0px;">
         <img style="width:100px;height:100px" src="/img/mymoney.png" />
         <h1 class="money">0</h1>
@@ -218,8 +215,8 @@
         </div>
 
     </div>
-    @Html.Partial("/Views/Addons/SignalRChatFrame.cshtml", null)
-    <input type="hidden" id="dst" value="@(FriendshipFirst.BLL.SignJSTextBll.SINGJSTEXT)" />
+    @Html.Partial("/Views/Addons/SignalRChatFrame.cshtml", null)    
+
     <script src="/js/notie/notie.js"></script>
     <div class="progress-indicator" style="display: none;">
         <div class="load-content align-center">

@@ -19,7 +19,7 @@ function ClientConnected(result) {
     var isAllReady = true;
     isBanker = result.data.IsBanker;
     
-    roomHub.server.getRoomUsers(appendParam(param, getSign())).done(function (res) {
+    roomHub.server.getRoomUsers(appendParam(param, signObj)).done(function (res) {
         res = JSON.parse(res);
         
         for (var i = 0; i < res.data.length; i++) {            
@@ -169,7 +169,7 @@ function removeUserControl(userCode) {
 //下注
 function IAmReady(betMoney) {
     var param = "{\"TableCode\":\"" + getUrlParam("tableCode") + "\",\"UserCode\":\"" + getUserCode() + "\",\"BetMoney\":\"" + betMoney + "\"}";
-    roomHub.server.iAmReady(appendParam(param, getSign())).done(function (res) {
+    roomHub.server.iAmReady(appendParam(param, signObj)).done(function (res) {
         //console.log(res);
         res = JSON.parse(res);
         if (res.code == 100) {
@@ -193,7 +193,7 @@ function IAmReady(betMoney) {
 //重新下注
 function IAmCancelReady() {
     var param = "{\"TableCode\":\"" + getUrlParam("tableCode") + "\",\"UserCode\":\"" + getUserCode() + "\"}";
-    roomHub.server.iAmCancelReady(appendParam(param, getSign())).done(function (res) {
+    roomHub.server.iAmCancelReady(appendParam(param, signObj)).done(function (res) {
         res = JSON.parse(res);
         if (res.code == 100) {
             $("#nightcrawler a").unbind();
@@ -213,7 +213,7 @@ function Settlement(targetUserCode) {
     showInput("输入赢得的金额", "tel", function (ipt) {
         if (isNaN(ipt) == false) {
             var param = "{\"TableCode\":\"" + getUrlParam("tableCode") + "\",\"UserCode\":\"" + getUserCode() + "\",\"TargetUserCode\":\"" + targetUserCode + "\",\"Money\":\"" + ipt + "\"}";
-            roomHub.server.settlement(appendParam(param, getSign())).done(function (res) {
+            roomHub.server.settlement(appendParam(param, signObj)).done(function (res) {
                 res = JSON.parse(res);
                 //console.log(res);
                 if (res.code == 100) {
@@ -234,7 +234,7 @@ function Settlement(targetUserCode) {
 
 function GameRestart() {
     var param = "{\"TableCode\":\"" + getUrlParam("tableCode") + "\",\"UserCode\":\"" + getUserCode() + "\"}";
-    roomHub.server.gameRestart(appendParam(param, getSign())).done(function (res) {
+    roomHub.server.gameRestart(appendParam(param, signObj)).done(function (res) {
         res = JSON.parse(res);
         //console.log(res);
         if (res.code != 100) {
@@ -246,7 +246,7 @@ function GameRestart() {
 //请求换庄
 function ApplySwitchBanker(targetUserCode) {
     var param = "{\"TableCode\":\"" + getUrlParam("tableCode") + "\",\"UserCode\":\"" + getUserCode() + "\",\"TargetUserCode\":\"" + targetUserCode + "\"}";
-    roomHub.server.applySwitchBanker(appendParam(param, getSign())).done(function (res) {
+    roomHub.server.applySwitchBanker(appendParam(param, signObj)).done(function (res) {
         res = JSON.parse(res);
         if (res.code == 100) {
             showSuccessMessage("请等待对方的回应");
@@ -299,7 +299,7 @@ function registCustomRoomFunction() {
         if (targetUser.UserCode == getUserCode()) {
             showConfirmMessage(user.NickName + "请求和你交换庄家", function () {
                 var param = "{\"TableCode\":\"" + getUrlParam("tableCode") + "\",\"UserCode\":\"" + getUserCode() + "\",\"TargetUserCode\":\"" + user.UserCode + "\"}";
-                roomHub.server.switchBanker(appendParam(param, getSign())).done(function (res) {
+                roomHub.server.switchBanker(appendParam(param, signObj)).done(function (res) {
                     res = JSON.parse(res);
                     if (res.code != 100) {
                         showErrorMessage(res.msg);

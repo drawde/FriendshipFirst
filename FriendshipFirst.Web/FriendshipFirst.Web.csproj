@@ -45,6 +45,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="GeetestSDK, Version=3.1.6430.27732, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\MyHearthStoneV2\MyHearthStoneV2.VerificationCode\bin\Debug\GeetestSDK.dll</HintPath>
@@ -173,6 +181,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="gulpfile.js" />
     <Content Include="images\baoxiang.png" />
     <Content Include="images\defaulthead.png" />
     <Content Include="images\OFF-CANVAS\user1.png" />
@@ -189,6 +198,7 @@
     <Content Include="js\apisign.source.js" />
     <Content Include="js\basic.js" />
     <Content Include="js\chosencardgroup.source.js" />
+    <Content Include="js\dist\apisign.js" />
     <Content Include="js\index.js" />
     <Content Include="js\login.js" />
     <Content Include="js\md5-min.js" />
@@ -206,6 +216,7 @@
     <Content Include="fonts\fontawesome-webfont.woff2" />
     <Content Include="fonts\Pe-icon-7-stroke.woff" />
     <Content Include="fonts\themify.woff" />
+    <None Include="Properties\PublishProfiles\1.pubxml" />
     <None Include="Scripts\jquery-1.10.2-vsdoc.js" />
     <Content Include="Scripts\fetch.min.js" />
     <Content Include="Scripts\figlet.js" />
