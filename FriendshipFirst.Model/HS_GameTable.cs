@@ -22,5 +22,6 @@ namespace FriendshipFirst.Model
         public System.DateTime AddTime { get; set; }
         public string BankerCode { get; set; }
         public string TableCode { get; set; }
+        public int TableStatus { get; set; }
     }
 }

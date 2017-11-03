@@ -4,6 +4,12 @@
 @using FriendshipFirst.Model
 @{
     Layout = null;
+    FF_Game game = ViewBag.Game as FF_Game;
+    int gameStyle = (int)GameStyleEnum.庄家模式;
+    if (game != null)
+    {
+        gameStyle = game.GameStyle;
+    }
 }
 
 <!doctype html>
@@ -74,6 +80,8 @@
     <script type="text/javascript">
         @(EnumUtil.GetJsonEnum(typeof(GameStatusEnum)));
         @(EnumUtil.GetJsonEnum(typeof(PlayerStatusEnum)));
+        @(EnumUtil.GetJsonEnum(typeof(GameStyleEnum)));
+        var gameStyle = @(gameStyle);
     </script>
 </head>
 <body style="background-color:#0b86a2">

@@ -96,6 +96,10 @@ namespace FriendshipFirst.BLL
             using (FriendshipFirstContext context = new FriendshipFirstContext())
             {
                 var gameTable = context.hs_gametable.FirstOrDefault(c => c.TableCode == tableCode);
+                if (gameTable.TableStatus != (int)TableStatusEnum.正常)
+                {
+                    return JsonModelResult.PackageFail(OperateResCodeEnum.参数错误);
+                }
                 var game = context.ff_game.Where(c => c.GameCode == gameTable.TableCode && c.GameStatus == (int)GameStatusEnum.初始化).OrderByDescending(c => c.AddTime).FirstOrDefault();
                 var record = context.ff_gamerecord.FirstOrDefault(c => c.RoundCode == game.CurrentRoundCode && c.UserCode == userCode);
                 record.BetMoney = betMoney;
@@ -125,6 +129,11 @@ namespace FriendshipFirst.BLL
         {
             using (FriendshipFirstContext context = new FriendshipFirstContext())
             {
+                var gameTable = context.hs_gametable.FirstOrDefault(c => c.TableCode == tableCode);
+                if (gameTable.TableStatus != (int)TableStatusEnum.正常)
+                {
+                    return JsonModelResult.PackageFail(OperateResCodeEnum.参数错误);
+                }
                 var game = context.ff_game.Where(c => c.GameCode == tableCode).OrderByDescending(c => c.AddTime).FirstOrDefault();
                 if (game.GameStatus != (int)GameStatusEnum.初始化)
                 {
@@ -143,6 +152,11 @@ namespace FriendshipFirst.BLL
             List<CGameUser> lstRec = null;
             using (FriendshipFirstContext context = new FriendshipFirstContext())
             {
+                var gameTable = context.hs_gametable.FirstOrDefault(c => c.TableCode == tableCode);
+                if (gameTable.TableStatus != (int)TableStatusEnum.正常)
+                {
+                    return JsonModelResult.PackageFail(OperateResCodeEnum.参数错误);
+                }
                 var game = context.ff_game.Where(c => c.GameCode == tableCode).OrderByDescending(c => c.AddTime).FirstOrDefault();
                 if (game.GameStatus != (int)GameStatusEnum.已结算)
                 {
@@ -182,51 +196,60 @@ namespace FriendshipFirst.BLL
                 record.BetMoney = 0;
                 record.Balance += money;
                 record.WinMoney += money;
-                if (record.IsBanker == false)
+
+                bool isAllSettlemented = false;
+                if (game.GameStyle == (int)GameStyleEnum.庄家模式)
+                {
+                    
+                    if (record.IsBanker == false)
+                    {
+                        record.PlayerStatus = (int)PlayerStatusEnum.已结算;
+                    }
+                    else if (lstRec.Count(c => c.IsBanker == false && c.PlayerStatus != (int)PlayerStatusEnum.已结算) <= 1)
+                    {
+                        record.PlayerStatus = (int)PlayerStatusEnum.已结算;
+                    }
+
+                    targetRecord.Balance -= money;
+                    targetRecord.WinMoney -= money;
+                    if (targetRecord.IsBanker == false)
+                    {
+                        targetRecord.PlayerStatus = (int)PlayerStatusEnum.已结算;
+                    }
+                    else if (lstRec.Count(c => c.IsBanker == false && c.PlayerStatus != (int)PlayerStatusEnum.已结算) <= 1)
+                    {
+                        targetRecord.PlayerStatus = (int)PlayerStatusEnum.已结算;
+                    }
+                    isAllSettlemented = (record.PlayerStatus == (int)PlayerStatusEnum.已结算 && targetRecord.PlayerStatus == (int)PlayerStatusEnum.已结算);
+                }
+                else
                 {
                     record.PlayerStatus = (int)PlayerStatusEnum.已结算;
-                }
-                else if (lstRec.Count(c => c.IsBanker == false && c.PlayerStatus != (int)PlayerStatusEnum.已结算) <= 1)
-                {
-                    record.PlayerStatus = (int)PlayerStatusEnum.已结算;
+
+                    targetRecord.Balance -= money;
+                    targetRecord.WinMoney -= money;
+                    targetRecord.PlayerStatus = (int)PlayerStatusEnum.已结算;
+
+                    isAllSettlemented = !lstRec.Any(c => c.PlayerStatus != (int)PlayerStatusEnum.已结算 && c.UserCode != userCode && c.UserCode != targetUserCode);
                 }
 
-                targetRecord.Balance -= money;
-                targetRecord.WinMoney -= money;
-                if (targetRecord.IsBanker == false)
+                if (isAllSettlemented)
                 {
-                    targetRecord.PlayerStatus = (int)PlayerStatusEnum.已结算;
-                }
-                else if (lstRec.Count(c => c.IsBanker == false && c.PlayerStatus != (int)PlayerStatusEnum.已结算) <= 1)
-                {
-                    targetRecord.PlayerStatus = (int)PlayerStatusEnum.已结算;
-                }
-
-                if (record.PlayerStatus == (int)PlayerStatusEnum.已结算 && targetRecord.PlayerStatus == (int)PlayerStatusEnum.已结算)
-                {
-                    game.GameStatus = (int)GameStatusEnum.已结算;
                     DateTime now = DateTime.Now;
                     var lst = lstRec.ToList();
                     game.CurrentRoundCode = game.NextRoundCode;
                     game.NextRoundCode = SignUtil.CreateSign(game.BankerCode + RandomUtil.CreateRandomStr(8) + now.Ticks);
-                    foreach (var r in lst)
+
+                    if (game.GameStyle == (int)GameStyleEnum.庄家模式)
                     {
-                        FF_GameRecord model = new FF_GameRecord
-                        {
-                            AddTime = now,
-                            Balance = r.Balance,
-                            BetMoney = 0,
-                            GameCode = game.GameCode,
-                            IsActivity = true,
-                            IsBanker = r.IsBanker,
-                            PlayerStatus = r.IsBanker ? (int)PlayerStatusEnum.已下注 : (int)PlayerStatusEnum.未准备,
-                            RoundCode = game.CurrentRoundCode,
-                            UserCode = r.UserCode,
-                            WinMoney = 0,
-                            RoomIndex = r.RoomIndex
-                        };
-                        context.ff_gamerecord.Add(model);
+                        game.GameStatus = (int)GameStatusEnum.已结算;
+                        AddUserToNextBankerRound(lst, game, now, context);
                     }
+                    else
+                    {
+                        game.GameStatus = (int)GameStatusEnum.已开始;
+                        AddUserToNextFreeModelRound(lst, game, now, context);
+                    }                    
                 }
                 context.SaveChanges();
                 gameUser = GameRecordBll.Instance.GetUser(userCode, game.GameCode, context);
@@ -234,6 +257,49 @@ namespace FriendshipFirst.BLL
                 //gameUser = data.Where(c => c.UserCode == userCode && c.GameCode == gameCode).OrderByDescending(c => c.AddTime).FirstOrDefault();
             }
             return JsonModelResult.PackageSuccess(gameUser);
+        }
+
+        private void AddUserToNextBankerRound(List<FF_GameRecord> lst, FF_Game game, DateTime now, FriendshipFirstContext context)
+        {
+            foreach (var r in lst)
+            {
+                FF_GameRecord model = new FF_GameRecord
+                {
+                    AddTime = now,
+                    Balance = r.Balance,
+                    BetMoney = 0,
+                    GameCode = game.GameCode,
+                    IsActivity = true,
+                    IsBanker = r.IsBanker,
+                    PlayerStatus = r.IsBanker ? (int)PlayerStatusEnum.已下注 : (int)PlayerStatusEnum.未准备,
+                    RoundCode = game.CurrentRoundCode,
+                    UserCode = r.UserCode,
+                    WinMoney = 0,
+                    RoomIndex = r.RoomIndex
+                };
+                context.ff_gamerecord.Add(model);
+            }
+        }
+        private void AddUserToNextFreeModelRound(List<FF_GameRecord> lst, FF_Game game, DateTime now, FriendshipFirstContext context)
+        {
+            foreach (var r in lst)
+            {
+                FF_GameRecord model = new FF_GameRecord
+                {
+                    AddTime = now,
+                    Balance = r.Balance,
+                    BetMoney = 0,
+                    GameCode = game.GameCode,
+                    IsActivity = true,
+                    IsBanker = r.IsBanker,
+                    PlayerStatus = (int)PlayerStatusEnum.已下注,
+                    RoundCode = game.CurrentRoundCode,
+                    UserCode = r.UserCode,
+                    WinMoney = 0,
+                    RoomIndex = r.RoomIndex
+                };
+                context.ff_gamerecord.Add(model);
+            }
         }
 
         /// <summary>

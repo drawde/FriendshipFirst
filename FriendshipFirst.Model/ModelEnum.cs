@@ -43,4 +43,16 @@ namespace FriendshipFirst.Model
         已下注 = 2,
         已结算 = 3,
     }
+
+    public enum TableStatusEnum
+    {
+        正常 = 1,
+        关闭 = 2,
+    }
+
+    public enum GameStyleEnum
+    {
+        庄家模式 = 1,
+        自由模式 = 2,
+    }
 }

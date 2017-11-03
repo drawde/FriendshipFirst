@@ -16,7 +16,7 @@ using FriendshipFirst.Common.JsonModel;
 using FriendshipFirst.Model.CustomModels;
 
 namespace FriendshipFirst.API.Hubs.ChosenCardGroup
-{    
+{
     public class ChosenCardGroupHub : Hub, IChosenCardGroupHub
     {
         public override Task OnConnected()
@@ -43,7 +43,7 @@ namespace FriendshipFirst.API.Hubs.ChosenCardGroup
             {
                 return JsonConvert.SerializeObject(textRes);
             }
-            
+
             HS_GameTable table = GameTableBll.Instance.GetTable(tableCode);
             if (table != null)
             {
@@ -60,7 +60,7 @@ namespace FriendshipFirst.API.Hubs.ChosenCardGroup
             else
             {
                 return JsonStringResult.VerifyFail();
-            }            
+            }
             return JsonConvert.SerializeObject(textRes);
         }
 
@@ -80,7 +80,7 @@ namespace FriendshipFirst.API.Hubs.ChosenCardGroup
             string userCode = jobj["UserCode"].TryParseString();
             string tableCode = jobj["TableCode"].Value<string>();
             decimal betMoney = jobj["BetMoney"].TryParseDecimal(2);
-            
+
             var res = GameBll.Instance.Bet(userCode, betMoney, tableCode);
             var user = GameRecordBll.Instance.GetUser(userCode, tableCode);
 
@@ -99,7 +99,7 @@ namespace FriendshipFirst.API.Hubs.ChosenCardGroup
             JObject jobj = JObject.Parse(param);
             string userCode = jobj["UserCode"].TryParseString();
             string tableCode = jobj["TableCode"].Value<string>();
-            
+
             var res = GameBll.Instance.CancelBet(userCode, tableCode);
             var user = GameRecordBll.Instance.GetUser(userCode, tableCode);
             //提示客户端                
@@ -122,7 +122,7 @@ namespace FriendshipFirst.API.Hubs.ChosenCardGroup
             if (res.code == (int)OperateResCodeEnum.成功)
             {
                 GameRestartNotice(res);
-                
+
             }
             return JsonConvert.SerializeObject(res);
         }
@@ -142,7 +142,7 @@ namespace FriendshipFirst.API.Hubs.ChosenCardGroup
             JObject jobj = JObject.Parse(param);
             string userCode = jobj["UserCode"].TryParseString();
             string tableCode = jobj["TableCode"].Value<string>();
-            
+
             //查找房间是否存在
             var users = GameRecordBll.Instance.GetUsers(tableCode);
             //存在则进入删除
@@ -170,7 +170,7 @@ namespace FriendshipFirst.API.Hubs.ChosenCardGroup
         public string ApplySwitchBanker(string param)
         {
             JObject jobj = JObject.Parse(param);
-            string userCode = jobj["UserCode"].TryParseString();            
+            string userCode = jobj["UserCode"].TryParseString();
             string targetUserCode = jobj["TargetUserCode"].TryParseString();
             string tableCode = jobj["TableCode"].Value<string>();
 
@@ -197,7 +197,7 @@ namespace FriendshipFirst.API.Hubs.ChosenCardGroup
             string userCode = jobj["UserCode"].TryParseString();
             string targetUserCode = jobj["TargetUserCode"].TryParseString();
             string tableCode = jobj["TableCode"].Value<string>();
-            
+
             var res = GameBll.Instance.SwitchBanker(tableCode, userCode, targetUserCode);
             if (res.code == (int)OperateResCodeEnum.成功)
             {
@@ -219,7 +219,7 @@ namespace FriendshipFirst.API.Hubs.ChosenCardGroup
         [SignalRMethod]
         public void Bordcast(string param)
         {
-            
+
         }
 
         public void SendOnlineNotice(CGameUser user, string roomName, string chatContent)
@@ -227,12 +227,12 @@ namespace FriendshipFirst.API.Hubs.ChosenCardGroup
             Clients.Group(roomName, new string[0]).receiveOnlineNotice(chatContent, JsonConvert.SerializeObject(user));
         }
 
-        private void SendBordcast(string roomName, string message,string senderUserCode)
+        private void SendBordcast(string roomName, string message, string senderUserCode)
         {
             Clients.Group(roomName, new string[0]).receiveBordcast(message, senderUserCode);
         }
 
-        private void SendReadyStatusNotice(string roomName,string message,string senderUserCode, CGameUser user)
+        private void SendReadyStatusNotice(string roomName, string message, string senderUserCode, CGameUser user)
         {
             Clients.Group(roomName, new string[0]).receiveReadyNotice(message, senderUserCode, JsonConvert.SerializeObject(user));
         }
@@ -259,7 +259,7 @@ namespace FriendshipFirst.API.Hubs.ChosenCardGroup
             //AddNewMessageToPage(game.GameCode, game.NickName, chatContent);
         }
 
-        private void AddNewMessageToPage(string gameCode,string nickName, string chatContent)
+        private void AddNewMessageToPage(string gameCode, string nickName, string chatContent)
         {
             Clients.Group(gameCode, new string[0]).addNewMessageToPage(nickName, chatContent);
         }
@@ -282,7 +282,14 @@ namespace FriendshipFirst.API.Hubs.ChosenCardGroup
             if (result.code == (int)OperateResCodeEnum.成功)
             {
                 CGameUser user = GameRecordBll.Instance.GetUser(targetUserCode, tableCode);
-                Clients.Group(user.GameCode, new string[0]).settlementNotice(targetUserCode, JsonConvert.SerializeObject(user), money);
+                if (user.GameStyle == (int)GameStyleEnum.庄家模式)
+                {
+                    Clients.Group(user.GameCode, new string[0]).settlementNotice(targetUserCode, JsonConvert.SerializeObject(user), money);                    
+                }
+                else if(user.GameStatus == (int)GameStatusEnum.已开始)
+                {
+                    Clients.Group(user.GameCode, new string[0]).allReady("游戏已经重新开始！");
+                }
             }
             return JsonConvert.SerializeObject(result);
         }

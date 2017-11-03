@@ -1,4 +1,5 @@
-﻿using FriendshipFirst.Web.Filters;
+﻿using FriendshipFirst.BLL;
+using FriendshipFirst.Web.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,8 +17,9 @@ namespace FriendshipFirst.Web.Controllers
         }
 
         [OAuth]
-        public ActionResult ChosenCardGroup()
+        public ActionResult ChosenCardGroup(string tableCode)
         {
+            ViewBag.Game = GameBll.Instance.GetGame(tableCode);
             return View();
         }
     }

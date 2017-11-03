@@ -80,7 +80,8 @@ namespace FriendshipFirst.BLL
                                    NextRoundCode = g.NextRoundCode,
                                    IsActivity = r.IsActivity,
                                    GameStatus = g.GameStatus,
-                                   RoomIndex = r.RoomIndex
+                                   RoomIndex = r.RoomIndex,
+                                   GameStyle = g.GameStyle
                                };
                     return data.Where(c => c.GameCode == gameCode).ToList();
                 }
@@ -109,7 +110,8 @@ namespace FriendshipFirst.BLL
                                NextRoundCode = g.NextRoundCode,
                                IsActivity = r.IsActivity,
                                GameStatus = g.GameStatus,
-                               RoomIndex = r.RoomIndex
+                               RoomIndex = r.RoomIndex,
+                               GameStyle = g.GameStyle
                            };
                 return data.Where(c => c.GameCode == gameCode).ToList();
             }
@@ -143,7 +145,8 @@ namespace FriendshipFirst.BLL
                                    NextRoundCode = g.NextRoundCode,
                                    IsActivity = r.IsActivity,
                                    GameStatus = g.GameStatus,
-                                   RoomIndex = r.RoomIndex
+                                   RoomIndex = r.RoomIndex,
+                                   GameStyle = g.GameStyle
                                };
 
                     return data.Where(c => c.UserCode == userCode && c.GameCode == gameCode).OrderByDescending(c => c.AddTime).FirstOrDefault();
@@ -173,7 +176,8 @@ namespace FriendshipFirst.BLL
                                NextRoundCode = g.NextRoundCode,
                                IsActivity = r.IsActivity,
                                GameStatus = g.GameStatus,
-                               RoomIndex = r.RoomIndex
+                               RoomIndex = r.RoomIndex,
+                               GameStyle = g.GameStyle
                            };
 
                 return data.Where(c => c.UserCode == userCode && c.GameCode == gameCode).OrderByDescending(c => c.AddTime).FirstOrDefault();

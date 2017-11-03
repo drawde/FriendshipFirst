@@ -16,6 +16,7 @@
           <Property Name="GameStatus" Type="int" Nullable="false" />
           <Property Name="CurrentRoundCode" Type="varchar" MaxLength="32" Nullable="false" />
           <Property Name="NextRoundCode" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="GameStyle" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="FF_GameRecord">
           <Key>
@@ -91,6 +92,7 @@
           <Property Name="AddTime" Type="datetime" Nullable="false" />
           <Property Name="BankerCode" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="TableCode" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="TableStatus" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="HS_SystemConfig">
           <Key>
@@ -118,10 +120,10 @@
           <EntitySet Name="HS_ErrRec" EntityType="FriendshipFirst.Model.HS_ErrRec" />
           <EntitySet Name="HS_SystemConfig" EntityType="FriendshipFirst.Model.HS_SystemConfig" />
           <EntitySet Name="FF_User" EntityType="FriendshipFirst.Model.FF_User" />
-          <EntitySet Name="HS_GameTable" EntityType="FriendshipFirst.Model.HS_GameTable" />
-          <EntitySet Name="FF_Game" EntityType="FriendshipFirst.Model.FF_Game" />
           <EntitySet Name="HS_DataExchange" EntityType="FriendshipFirst.Model.HS_DataExchange" />
           <EntitySet Name="FF_GameRecord" EntityType="FriendshipFirst.Model.FF_GameRecord" />
+          <EntitySet Name="FF_Game" EntityType="FriendshipFirst.Model.FF_Game" />
+          <EntitySet Name="HS_GameTable" EntityType="FriendshipFirst.Model.HS_GameTable" />
         </EntityContainer>
         <EntityType Name="HS_ErrRec">
           <Key>
@@ -162,31 +164,6 @@
           <Property Name="HeadImg" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="NickName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="HS_GameTable">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TableName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CreateUserCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="PlayerUserCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="AddTime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="BankerCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TableCode" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="FF_Game">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="GameCode" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
-          <Property Name="BankerCode" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
-          <Property Name="AddTime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="GameStatus" Type="Int32" Nullable="false" />
-          <Property Name="CurrentRoundCode" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
-          <Property Name="NextRoundCode" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="HS_DataExchange">
           <Key>
             <PropertyRef Name="ID" />
@@ -218,6 +195,33 @@
           <Property Name="GameCode" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
           <Property Name="IsActivity" Type="Boolean" Nullable="false" />
           <Property Name="RoomIndex" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FF_Game">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GameCode" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="BankerCode" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="AddTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="GameStatus" Type="Int32" Nullable="false" />
+          <Property Name="CurrentRoundCode" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="NextRoundCode" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="GameStyle" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HS_GameTable">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TableName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreateUserCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PlayerUserCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AddTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="BankerCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TableCode" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="TableStatus" Type="Int32" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -267,33 +271,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="HS_GameTable">
-            <EntityTypeMapping TypeName="FriendshipFirst.Model.HS_GameTable">
-              <MappingFragment StoreEntitySet="HS_GameTable">
-                <ScalarProperty Name="TableCode" ColumnName="TableCode" />
-                <ScalarProperty Name="BankerCode" ColumnName="BankerCode" />
-                <ScalarProperty Name="AddTime" ColumnName="AddTime" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="PlayerUserCode" ColumnName="PlayerUserCode" />
-                <ScalarProperty Name="CreateUserCode" ColumnName="CreateUserCode" />
-                <ScalarProperty Name="TableName" ColumnName="TableName" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="FF_Game">
-            <EntityTypeMapping TypeName="FriendshipFirst.Model.FF_Game">
-              <MappingFragment StoreEntitySet="FF_Game">
-                <ScalarProperty Name="NextRoundCode" ColumnName="NextRoundCode" />
-                <ScalarProperty Name="CurrentRoundCode" ColumnName="CurrentRoundCode" />
-                <ScalarProperty Name="GameStatus" ColumnName="GameStatus" />
-                <ScalarProperty Name="AddTime" ColumnName="AddTime" />
-                <ScalarProperty Name="BankerCode" ColumnName="BankerCode" />
-                <ScalarProperty Name="GameCode" ColumnName="GameCode" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="HS_DataExchange">
             <EntityTypeMapping TypeName="FriendshipFirst.Model.HS_DataExchange">
               <MappingFragment StoreEntitySet="HS_DataExchange">
@@ -328,7 +305,36 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          <EntitySetMapping Name="FF_Game">
+            <EntityTypeMapping TypeName="FriendshipFirst.Model.FF_Game">
+              <MappingFragment StoreEntitySet="FF_Game">
+                <ScalarProperty Name="GameStyle" ColumnName="GameStyle" />
+                <ScalarProperty Name="NextRoundCode" ColumnName="NextRoundCode" />
+                <ScalarProperty Name="CurrentRoundCode" ColumnName="CurrentRoundCode" />
+                <ScalarProperty Name="GameStatus" ColumnName="GameStatus" />
+                <ScalarProperty Name="AddTime" ColumnName="AddTime" />
+                <ScalarProperty Name="BankerCode" ColumnName="BankerCode" />
+                <ScalarProperty Name="GameCode" ColumnName="GameCode" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HS_GameTable">
+            <EntityTypeMapping TypeName="FriendshipFirst.Model.HS_GameTable">
+              <MappingFragment StoreEntitySet="HS_GameTable">
+                <ScalarProperty Name="TableStatus" ColumnName="TableStatus" />
+                <ScalarProperty Name="TableCode" ColumnName="TableCode" />
+                <ScalarProperty Name="BankerCode" ColumnName="BankerCode" />
+                <ScalarProperty Name="AddTime" ColumnName="AddTime" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="PlayerUserCode" ColumnName="PlayerUserCode" />
+                <ScalarProperty Name="CreateUserCode" ColumnName="CreateUserCode" />
+                <ScalarProperty Name="TableName" ColumnName="TableName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

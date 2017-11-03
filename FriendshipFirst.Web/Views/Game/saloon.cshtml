@@ -1,5 +1,7 @@
 ﻿@using System.Configuration
 @using FriendshipFirst.Common.Util
+@using FriendshipFirst.Common.Enum
+@using FriendshipFirst.Model
 @{
     ViewBag.Title = "大厅";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -34,6 +36,7 @@
                 <form id="createsaloonFrom" data-success="Thanks for your enquiry, we'll be in touch shortly." data-error="Please complete all fields correctly." success-redirect="/" class="form-email">
                     <input type="text" name="name" placeholder="房间名" class="input-standard validate-required" style="width:25%">
                     <input type="text" name="password" placeholder="密码（可选）" class="input-standard validate-required" style="width:25%;float:left;margin-left:20px">
+                    @(Html.Raw(EnumUtil.GetSelectEnum(typeof(GameStyleEnum))))
                     @*<textarea name="message" placeholder="Your Message" rows="4" class="input-standard validate-required"></textarea>*@
                     <input type="submit" value="创建房间" class="btn btn-sm" id="createsaloon">
                 </form>

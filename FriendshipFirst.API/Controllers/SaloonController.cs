@@ -23,13 +23,15 @@ namespace FriendshipFirst.API.Controllers
             string Name = param["Name"].TryParseString();
             string Password = param["Password"].TryParseString();
             string UserCode = param["UserCode"].TryParseString();
-
+            GameStyleEnum GameStyle = (GameStyleEnum)param["GameStyle"].TryParseInt();
+            
             HS_GameTable gt = new HS_GameTable();
             gt.CreateUserCode = UserCode;
             gt.Password = Password;
             gt.TableName = Name;
+            gt.TableStatus = (int)TableStatusEnum.正常;
 
-            var resModel = GameTableBll.Instance.AddOrUpdate(gt);
+            var resModel = GameTableBll.Instance.AddOrUpdate(gt, GameStyle);
             return Content(JsonConvert.SerializeObject(resModel));
         }
 

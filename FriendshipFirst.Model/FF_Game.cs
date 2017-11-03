@@ -21,5 +21,6 @@ namespace FriendshipFirst.Model
         public int GameStatus { get; set; }
         public string CurrentRoundCode { get; set; }
         public string NextRoundCode { get; set; }
+        public int GameStyle { get; set; }
     }
 }

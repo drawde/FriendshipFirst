@@ -14,7 +14,7 @@
         }
         showLoader();
         
-        var param = "{\"Name\":\"" + $("input[name='name']").val() + "\",\"Password\":\"" + $("input[name='password']").val() + "\",\"UserCode\":\"" + getUserCode() + "\"}";
+        var param = "{\"Name\":\"" + $("input[name='name']").val() + "\",\"Password\":\"" + $("input[name='password']").val() + "\",\"UserCode\":\"" + getUserCode() + "\",\"GameStyle\":\"" + $("#GameStyleEnum").val() + "\"}";
         ajaxGetData("/Saloon/CreateOrUpdate", param, signObj.rndStr, signObj.sign, signObj.sendTime, function (data) {
             showMessage(data.msg, function () {
                 hideLoader();

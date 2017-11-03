@@ -25,5 +25,6 @@ namespace FriendshipFirst.Model.CustomModels
         public bool IsActivity { get; set; }
         public int GameStatus { get; set; }
         public int RoomIndex { get; set; }
+        public int GameStyle { get; set; }
     }
 }

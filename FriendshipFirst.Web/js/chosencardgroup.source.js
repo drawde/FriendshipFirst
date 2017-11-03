@@ -85,7 +85,7 @@ function initSwitchBanker() {
 
 //绑定结算事件
 function bindSettlementEvent(isBanker) {    
-    if (isBanker) {
+    if (isBanker || gameStyle == GameStyleEnum.自由模式) {
         $("li[usercode]").each(function () {            
             if (getUserCode() != $(this).attr("usercode")) {
                 $(this).unbind();                
@@ -96,7 +96,6 @@ function bindSettlementEvent(isBanker) {
         });
     }
     else {
-        //console.log("bindSettlementEvent");
         $("#nightcrawler a").unbind();
         $("#nightcrawler a").click(function () {            
             Settlement(bankCode);
@@ -143,7 +142,9 @@ function refreshUserControl(user) {
     $(".characters li[userCode='" + user.UserCode + "'] h2").html(user.NickName);
     if (user.PlayerStatus == PlayerStatusEnum.已下注) {
         $(".characters li[userCode='" + user.UserCode + "'] div").show();
-        $(".characters li[userCode='" + user.UserCode + "'] p").html(user.BetMoney);
+        if (gameStyle == GameStyleEnum.庄家模式) {
+            $(".characters li[userCode='" + user.UserCode + "'] p").html(user.BetMoney);
+        }
     }
     else {
         $(".characters li[userCode='" + user.UserCode + "'] div").hide();
